@@ -1,0 +1,23 @@
+<div style="text-align:center" class="container">
+
+        <div class="row s1">
+                <div class="col-xs-3">
+                    <input [(ngModel)]="texto_recibido" class="form-control t1" type="text"  placeholder="Autor-Nombre">
+                </div>
+                <div class="col-xs-3">
+                    <button type="button" class="btn btn-info space" (click)='buscar()'>Agregar</button>
+                </div>
+                <div class="col-xs-3">
+                    <select class="form-control ld">
+                        <option value="default">seleccionar...</option>
+                        <ng-container *ngFor="let x of autores;index as i">
+                        <option value={{i+1}}>{{x}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+        </div>
+
+</div>
+<br>
+<br>
+<app-componente2 [dato]="autor_ingresado"></app-componente2>
