@@ -1,4 +1,6 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input, HostListener, Output, EventEmitter} from '@angular/core';
+import { CrearLibro } from '../crear-libro';
+import { ServiceService } from '../Service/service.service';
 
 @Component({
   selector: 'app-componente1',
@@ -7,40 +9,51 @@ import { Component, OnInit, Input} from '@angular/core';
 })
 export class Componente1Component implements OnInit {
 
-  
-
+  public libroPost: CrearLibro;
   public autores: string[];
+  public AutoresRecibidos: string[] = [];
   public texto_recibido: string;
+  public autor_seleccionado: string = 'default';
+  public a_select: string;
 
-  constructor() {
+  constructor(private http: ServiceService) {
     this.autores = ['Hector Abad', 'Gabriel García Márquez', 'Mario Mendoza', 'Robert Louis Stevenson'];
+    this.libroPost = { autor: '', nombre: '', fecha: '' };
   }
 
-  buscar() {
-    let t: string = '';
-    let nombre_ingresado: string = '';
-    let autor_ingresado: string = '';
-    t = this.texto_recibido;
+  miformato(mydate: Date) {
+    // tslint:disable-next-line: max-line-length
+    const months = ['Enero', 'Febrero', 'Marzo', 'Abri', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']; 
+    const dia = mydate.getDate();
+    const mes = months[mydate.getMonth()];
+    const anno = mydate.getFullYear();
+    const text: string = String(dia)  + ' de ' + String(mes) + ' del ' + String(anno);
+    return(text);
+  }
 
-    let cont: number = 0;
-    for (let i of t) {
-      if (i != '-'){
-        cont++;
-      }else{
-        break;
+  buscar(x: string) {
+    const t = x.split('-');
+    this.libroPost.autor = t[0];
+    this.libroPost.nombre = t[1];
+    this.libroPost.fecha = this.miformato(new Date());
+    this.http.postLibros(this.libroPost).subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        console.log('Algo anda mal');
       }
-    }
+    );
+  }
 
-    for (let i = 0; i < cont; i++) {
-      autor_ingresado = autor_ingresado + t[i];
-    }
+  recibirAutores($event: string[]) {
+    console.log($event);
+    this.AutoresRecibidos = $event;
+  }
 
-    for (let i = cont + 1; i < t.length; i++) {
-      nombre_ingresado += t[i];
-    }
-
-    console.log(autor_ingresado);
-    console.log(nombre_ingresado);
+  filtrar(y: string) {
+    console.log(y);
+    this.a_select = y;
   }
 
   ngOnInit() {

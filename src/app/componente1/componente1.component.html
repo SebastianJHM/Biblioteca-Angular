@@ -5,13 +5,20 @@
                     <input [(ngModel)]="texto_recibido" class="form-control t1" type="text"  placeholder="Autor-Nombre">
                 </div>
                 <div class="col-xs-3">
-                    <button type="button" class="btn btn-info space" (click)='buscar()'>Agregar</button>
+                    <button type="button" class="btn btn-info space" (click)='buscar(texto_recibido)'>Agregar</button>
                 </div>
                 <div class="col-xs-3">
-                    <select class="form-control ld">
+                    <!-- Tambien es posible nombrar toda la etiqueta con la propiedad #nombre. Luego para obtener 
+                    el valor de la caja se enviaría en la funcion {{nombre.value}}
+                        <select class="form-control ld" #autor_seleccionado (click)='filtrar(autor_seleccionado.value)'>
+                    -->
+                    <!--En la etiqueta option, value indica el valor que va a pasar el ngModel, si en lugar de x
+                    estuviera i, pasaría el número de la lista y no el nombre-->
+                    <select class="form-control ld" [(ngModel)]=autor_seleccionado 
+                    (click)='filtrar(autor_seleccionado)'>
                         <option value="default">seleccionar...</option>
-                        <ng-container *ngFor="let x of autores;index as i">
-                        <option value={{i+1}}>{{x}}</option>
+                        <ng-container *ngFor="let x of AutoresRecibidos;index as i">
+                            <option value={{x}}>{{x}}</option>
                         </ng-container>
                     </select>
                 </div>
@@ -20,4 +27,5 @@
 </div>
 <br>
 <br>
-<app-componente2 [dato]="autor_ingresado"></app-componente2>
+<app-componente2 [dato]="a_select" (messageEvent)="recibirAutores($event)"></app-componente2>
+
