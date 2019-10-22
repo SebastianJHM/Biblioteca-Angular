@@ -23,7 +23,7 @@ export class Componente1Component implements OnInit {
 
   miformato(mydate: Date) {
     // tslint:disable-next-line: max-line-length
-    const months = ['Enero', 'Febrero', 'Marzo', 'Abri', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']; 
+    const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']; 
     const dia = mydate.getDate();
     const mes = months[mydate.getMonth()];
     const anno = mydate.getFullYear();
